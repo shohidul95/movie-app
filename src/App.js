@@ -1,23 +1,20 @@
-import logo from "./logo.svg";
-import "./App.css";
+const express = require('express');
+require ('dotenv').config(); // to use .env file
+const app = express();
+const port = process.env.PORT || 3000;
+const { getPopularMovies } = require('./tmdb');
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Don't give up this time!</p>
-        <a
-          className="App-link"
-          href="https://www.youtube.com/watch?v=SMCd5zrsFpE"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+app.use(express.json()); // to parse the body of the request message
 
-export default App;
+app.get('/', (req, res) => {  // root route
+  res.send('Hello World!');
+} );
+
+app.get('/movies/popular', async (req, res) => {  // route to get popular movies
+  const movies = await getPopularMovies();
+  res.json(movies);
+} );
+
+app.listen(port, () => {  // start the server
+  console.log(`Server is running at http://localhost:${port}`);
+} );  
