@@ -3,6 +3,13 @@ require ('dotenv').config(); // to use .env file
 const app = express();
 const port = process.env.PORT || 3000;
 const { getPopularMovies } = require('./tmdb');
+const connectDB = require('./db'); // import the connectDB function from db.js
+
+connectDB(); // connect to the database
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+} );
 
 app.use(express.json()); // to parse the body of the request message
 
